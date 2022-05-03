@@ -14,17 +14,17 @@ class Adapter(val countryList: MutableList<CountryModel>, val mRV: RecyclerView)
 
 
     class ModelViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val countryName: TextView = view.findViewById(R.id.countryName)
+      //  val countryName: TextView = view.findViewById(R.id.countryName)
         val capitalName: TextView = view.findViewById(R.id.capitalName)
         val flagImage: ImageView = view.findViewById(R.id.flagImage)
-        val delete: ImageView = view.findViewById(R.id.delete)
-        val copy: ImageView = view.findViewById(R.id.copy)
+      //  val delete: ImageView = view.findViewById(R.id.delete)
+      //  val copy: ImageView = view.findViewById(R.id.copy)
 
 
         fun bindItems(item: CountryModel) {
 
-            countryName.setText(item.countryName)
-            capitalName.setText(item.capitalName)
+        //    countryName.setText(item.countryName)
+            capitalName.setText(item.countryName)
             flagImage.setImageResource(item.flagImage)
 
         }
@@ -55,31 +55,27 @@ class Adapter(val countryList: MutableList<CountryModel>, val mRV: RecyclerView)
 
        // println("onBindViewHolder position: "+position)
 
-        holder.delete.setOnClickListener {
+        /*
+          holder.delete.setOnClickListener {
 
-         //   println("sil position: "+position)
+
            countryList.removeAt(holder.getAdapterPosition())
-            notifyItemRemoved(holder.getAdapterPosition())
+            notifyItemRemoved(holder.getAdapterPosition()
+      }
+       holder.copy.setOnClickListener {
 
-
-
-            //  item.
-        }
-
-        holder.copy.setOnClickListener {
-
-           // countryList.add(position,countryList.get(position))
            countryList.add(holder.getAdapterPosition(),countryList.get(holder.getAdapterPosition()))
-            //notifyItemRemoved(holder.getAdapterPosition())
             notifyItemInserted(holder.getAdapterPosition())
             notifyItemRangeChanged(holder.getAdapterPosition(),countryList.size)
            if(holder.getAdapterPosition()==1)   mRV.scrollToPosition(0)
             if(holder.getAdapterPosition()==countryList.size-1)   mRV.scrollToPosition(countryList.size-1)
 
-          //  println("kopyala "+holder.getAdapterPosition())
-
-        // scrollToPosition(Adapter.getItemCount() - 1)
         }
+
+         */
+
+
+
 
 
 
