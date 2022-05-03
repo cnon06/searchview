@@ -5,12 +5,13 @@ import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
-import androidx.appcompat.widget.SearchView
+import android.widget.SearchView
+
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 
-class MainActivity : AppCompatActivity() , SearchView.OnQueryTextListener {
+class MainActivity : AppCompatActivity()  {
 
    
 
@@ -38,12 +39,46 @@ class MainActivity : AppCompatActivity() , SearchView.OnQueryTextListener {
         inflater.inflate(R.menu.menu,menu)
 
         val manager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
-        val searchitem = menu?.findItem(R.id.app_bar_search)
-        val searchView = searchitem?.actionView as  SearchView
+     //   val searchitem = menu?.findItem(R.id.app_bar_search)
+     //   val searchView = searchitem?.actionView as  SearchView
 
-        searchView.setSearchableInfo(manager.getSearchableInfo(componentName))
+      //  searchView.setSearchableInfo(manager.getSearchableInfo(componentName))
 
-        searchView.setOnQueryTextListener(this)
+       // searchView.setOnQueryTextListener(this)
+
+
+        val searchitem = findViewById<SearchView>(R.id.searchView)
+
+        searchitem.setOnQueryTextListener(
+            object: SearchView.OnQueryTextListener{
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    TODO("Not yet implemented")
+                }
+
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    val queryList = mutableListOf<CountryModel>()
+                    val query = newText.toString()
+
+                    for(i in getModels())
+                    {
+                        if(i.countryName.lowercase().contains(query.lowercase())) queryList.add(i)
+                    }
+
+                 var recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
+
+
+
+                    recyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+
+                    recyclerView.adapter = Adapter(queryList,recyclerView)
+
+                    recyclerView.scrollToPosition(0);
+
+                    return true
+                }
+
+            }
+        )
 
 
         return super.onCreateOptionsMenu(menu)
@@ -51,34 +86,6 @@ class MainActivity : AppCompatActivity() , SearchView.OnQueryTextListener {
     }
 
 
-    override fun onQueryTextChange(newText: String?): Boolean {
-        println(newText.toString()+"here")
-
-        val queryList = mutableListOf<CountryModel>()
-        val query = newText.toString()
-
-        for(i in getModels())
-        {
-            if(i.countryName.lowercase().contains(query.lowercase())) queryList.add(i)
-        }
-
-        var recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
-
-
-
-        recyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-
-        recyclerView.adapter = Adapter(queryList,recyclerView)
-
-        recyclerView.scrollToPosition(0);
-
-        return true
-    }
-
-
-    override fun onQueryTextSubmit(query: String?): Boolean {
-        TODO("Not yet implemented")
-    }
 
     fun getModels(): MutableList<CountryModel> {
 
